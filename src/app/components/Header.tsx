@@ -13,10 +13,10 @@ export default function Header() {
 
   return (
     <header className="w-full py-4 px-6 flex justify-between items-center bg-white shadow-sm">
-      <Link href="/" className="text-xl font-bold">
+      <Link href="/" className="text-xl font-bold text-gray-700">
         Min Auth
       </Link>
-      
+
       <div className="flex gap-4">
         {isAuthenticated ? (
           // 로그인된 사용자를 위한 UI
