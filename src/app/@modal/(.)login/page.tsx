@@ -135,6 +135,32 @@ export default function LoginModal() {
               {loading ? '로그인 중...' : '로그인'}
             </button>
           </div>
+
+          <div className="relative mt-6">
+            <div className="absolute inset-0 flex items-center">
+              <div className="w-full border-t border-gray-300"></div>
+            </div>
+            <div className="relative flex justify-center text-sm">
+              <span className="px-2 bg-white text-gray-500">
+                또는 소셜 로그인
+              </span>
+            </div>
+          </div>
+
+          <div className="mt-6">
+            <button
+              type="button"
+              onClick={() => {
+                signIn('kakao', { callbackUrl: '/' });
+              }}
+              className="w-full flex items-center justify-center gap-2 py-2 px-4 bg-yellow-400 text-gray-900 rounded-md hover:bg-yellow-500 transition-colors"
+            >
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M10 0C4.48 0 0 3.48 0 7.78C0 10.45 1.63 12.78 4.08 14.15V18.48L8.16 15.67C8.76 15.78 9.37 15.85 10 15.85C15.52 15.85 20 12.37 20 7.78C20 3.48 15.52 0 10 0Z" fill="black" />
+              </svg>
+              카카오로 로그인
+            </button>
+          </div>
         </form>
 
         <div className="mt-4 text-center text-sm text-gray-600">

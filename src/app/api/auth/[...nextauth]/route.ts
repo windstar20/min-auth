@@ -2,6 +2,7 @@ import { createClient } from '@supabase/supabase-js';
 import { cookies } from 'next/headers';
 import NextAuth from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
+import KakaoProvider from 'next-auth/providers/kakao';
 import { NextAuthOptions } from 'next-auth';
 import { JWT } from 'next-auth/jwt';
 
@@ -11,6 +12,7 @@ declare module 'next-auth' {
     id: string;
     email: string;
     name: string;
+    image?: string;
   }
 
   interface Session {
@@ -18,6 +20,7 @@ declare module 'next-auth' {
       id: string;
       email: string;
       name: string;
+      image?: string;
     }
   }
 }
@@ -29,6 +32,11 @@ interface CustomJWT extends JWT {
 
 export const authOptions: NextAuthOptions = {
   providers: [
+    // 카카오 로그인 Provider 추가
+    KakaoProvider({
+      clientId: process.env.KAKAO_CLIENT_ID!,
+      clientSecret: process.env.KAKAO_CLIENT_SECRET!,
+    }),
     CredentialsProvider({
       name: 'Supabase',
       credentials: {
@@ -77,15 +85,22 @@ export const authOptions: NextAuthOptions = {
     }),
   ],
   callbacks: {
-    async jwt({ token, user }) {
+    async jwt({ token, user, account }) {
       console.log('token', token);
 
       // 사용자 로그인 시 JWT 토큰에 사용자 정보 추가
       const customToken = token as CustomJWT;
+
+      // 소셜 로그인 또는 일반 로그인 처리
       if (user) {
         customToken.id = user.id;
         customToken.email = user.email;
         customToken.name = user.name;
+
+        // 카카오 로그인의 경우 프로필 이미지 추가
+        if (user.image) {
+          token.picture = user.image;
+        }
       }
       return customToken;
     },
@@ -96,6 +111,11 @@ export const authOptions: NextAuthOptions = {
         session.user.id = customToken.id as string;
         session.user.email = customToken.email as string;
         session.user.name = customToken.name as string;
+
+        // 프로필 이미지가 있으면 추가
+        if (token.picture) {
+          session.user.image = token.picture as string;
+        }
       }
       return session;
     },
