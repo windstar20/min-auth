@@ -126,9 +126,17 @@ export default function LoginModal() {
             />
           </div>
 
+          {error && (
+            <div className="text-red-500 text-sm mt-1" data-testid="login-error-message">
+              {error}
+            </div>
+          )}
+
           <div className="pt-2">
             <button
               type="submit"
+              name="로그인"
+              data-testid="login-submit-button"
               disabled={loading}
               className="w-full bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 transition-colors"
             >
@@ -141,7 +149,7 @@ export default function LoginModal() {
               <div className="w-full border-t border-gray-300"></div>
             </div>
             <div className="relative flex justify-center text-sm">
-              <span className="px-2 bg-white text-gray-500">
+              <span data-testid="social-login-button" className="px-2 bg-white text-gray-500">
                 또는 소셜 로그인
               </span>
             </div>
@@ -168,6 +176,7 @@ export default function LoginModal() {
           <a
             href="/auth/signup"
             className="text-blue-500 hover:underline"
+            data-testid="signup-link"
             onClick={(e) => {
               e.preventDefault();
               router.push('/auth/signup');
