@@ -49,10 +49,10 @@ test('유효한 자격 증명으로 로그인', async ({ page }) => {
   await expect(page.getByRole('heading', { name: '로그인' })).toBeVisible();
 
   // 유효한 이메일 입력
-  await page.getByLabel('이메일').fill('badagogi@gmail.com');
+  await page.getByLabel('이메일').fill('invalid@example.com');
 
   // 유효한 비밀번호 입력
-  await page.getByLabel('비밀번호').fill('pphm8548');
+  await page.getByLabel('비밀번호').fill('test');
 
   // 로그인 버튼 클릭
   await page.getByTestId('login-submit-button').click();
@@ -62,7 +62,7 @@ test('유효한 자격 증명으로 로그인', async ({ page }) => {
   await expect(page).toHaveURL('/', { timeout: 5000 });
 
   // 로그인된 상태의 UI 요소가 표시되는지 확인 (예: 사용자 이메일)
-  await expect(page.getByText('badagogi@gmail.com')).toBeVisible();
+  await expect(page.getByText('invalid@example.com')).toBeVisible();
 });
 
 test('로그인 모달 UI 요소 확인', async ({ page }) => {
